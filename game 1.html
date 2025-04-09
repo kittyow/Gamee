@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Find the Difference Game</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      color: #e63946;
+      margin-top: 20px;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .image-wrapper {
+      position: relative;
+    }
+    img {
+      width: 300px;
+      height: auto;
+      border: 3px solid #ccc;
+      border-radius: 10px;
+    }
+    .spot {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(255, 0, 0, 0.3);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 22px;
+      color: #264653;
+      font-weight: bold;
+    }
+    #score {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔍 Find the Differences!</h1>
+  <p>Click the differences on the right image. You have 3 to find!</p>
+  <div class="container">
+    <div class="image-wrapper">
+      <img src="https://i.imgur.com/0DElr0H.jpg" alt="Left Image">
+    </div>
+    <div class="image-wrapper" id="right-image">
+      <img src="https://i.imgur.com/0DElr0H.jpg" alt="Right Image">
+      <!-- Difference Spots -->
+      <div class="spot" style="top: 80px; left: 120px;"></div>
+      <div class="spot" style="top: 150px; left: 200px;"></div>
+      <div class="spot" style="top: 220px; left: 90px;"></div>
+    </div>
+  </div>
+  <div id="score">Found: <span id="found-count">0</span>/3</div>
+  <div id="result"></div>
+
+  <script>
+    const spots = document.querySelectorAll('.spot');
+    const foundCount = document.getElementById('found-count');
+    const result = document.getElementById('result');
+    let found = 0;
+
+    spots.forEach(spot => {
+      spot.addEventListener('click', function () {
+        if (!spot.classList.contains('found')) {
+          spot.classList.add('found');
+          spot.style.background = 'rgba(0, 200, 0, 0.6)';
+          found++;
+          foundCount.textContent = found;
+          if (found === spots.length) {
+            result.textContent = '🎉 You found all the differences!';
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

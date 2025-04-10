@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Find the Difference Game</title>
+  <title>Find the Differences - Challenge Mode</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      background-color: #f0f8ff;
+      background-color: #fefae0;
       margin: 0;
       padding: 0;
     }
     h1 {
-      color: #e63946;
+      color: #d62828;
       margin-top: 20px;
     }
     .container {
@@ -39,53 +39,68 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-    #result {
-      margin-top: 20px;
-      font-size: 22px;
-      color: #264653;
-      font-weight: bold;
+    .found {
+      background: rgba(0, 200, 0, 0.5) !important;
     }
-    #score {
-      margin-top: 10px;
-      font-size: 18px;
-      color: #555;
+    #info {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+    #result {
+      font-size: 24px;
+      margin-top: 15px;
+      color: #1d3557;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <h1>🔍 Find the Differences!</h1>
-  <p>Click the differences on the right image. You have 3 to find!</p>
+  <h1>Find the Differences</h1>
+  <p>Click all 3 differences before time runs out!</p>
+  <div id="info">Found: <span id="found-count">0</span>/3 | Time left: <span id="timer">30</span>s</div>
   <div class="container">
     <div class="image-wrapper">
       <img src="https://i.imgur.com/0DElr0H.jpg" alt="Left Image">
     </div>
     <div class="image-wrapper" id="right-image">
       <img src="https://i.imgur.com/0DElr0H.jpg" alt="Right Image">
-      <!-- Difference Spots -->
       <div class="spot" style="top: 80px; left: 120px;"></div>
       <div class="spot" style="top: 150px; left: 200px;"></div>
       <div class="spot" style="top: 220px; left: 90px;"></div>
     </div>
   </div>
-  <div id="score">Found: <span id="found-count">0</span>/3</div>
   <div id="result"></div>
 
   <script>
     const spots = document.querySelectorAll('.spot');
     const foundCount = document.getElementById('found-count');
     const result = document.getElementById('result');
+    const timerDisplay = document.getElementById('timer');
     let found = 0;
+    let timeLeft = 30;
+    let gameOver = false;
 
+    // Start countdown
+    const countdown = setInterval(() => {
+      timeLeft--;
+      timerDisplay.textContent = timeLeft;
+      if (timeLeft === 0) {
+        clearInterval(countdown);
+        gameOver = true;
+        result.textContent = '⏳ Time is up! Try again.';
+      }
+    }, 1000);
+
+    // Click logic
     spots.forEach(spot => {
       spot.addEventListener('click', function () {
-        if (!spot.classList.contains('found')) {
-          spot.classList.add('found');
-          spot.style.background = 'rgba(0, 200, 0, 0.6)';
-          found++;
-          foundCount.textContent = found;
-          if (found === spots.length) {
-            result.textContent = '🎉 You found all the differences!';
-          }
+        if (gameOver || spot.classList.contains('found')) return;
+        spot.classList.add('found');
+        found++;
+        foundCount.textContent = found;
+        if (found === spots.length) {
+          clearInterval(countdown);
+          result.textContent = '🎉 You found all the differences!';
         }
       });
     });

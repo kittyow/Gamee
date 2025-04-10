@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Find the Differences - Challenge Mode</title>
+  <title>Find the Difference Game</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
-      background-color: #fefae0;
+      background-color: #fdf6f0;
       margin: 0;
       padding: 0;
     }
     h1 {
-      color: #d62828;
+      color: #e76f51;
       margin-top: 20px;
     }
     .container {
@@ -39,71 +39,87 @@
       cursor: pointer;
       transition: background 0.3s;
     }
-    .found {
-      background: rgba(0, 200, 0, 0.5) !important;
-    }
-    #info {
-      margin-top: 20px;
-      font-size: 20px;
+    .spot.found {
+      background: rgba(0, 200, 0, 0.6);
+      pointer-events: none;
     }
     #result {
+      margin-top: 20px;
       font-size: 24px;
-      margin-top: 15px;
-      color: #1d3557;
+      color: #2a9d8f;
       font-weight: bold;
+    }
+    #score {
+      margin-top: 10px;
+      font-size: 18px;
+      color: #555;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #e76f51;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #d1593e;
     }
   </style>
 </head>
 <body>
-  <h1>Find the Differences</h1>
-  <p>Click all 3 differences before time runs out!</p>
-  <div id="info">Found: <span id="found-count">0</span>/3 | Time left: <span id="timer">30</span>s</div>
+  <h1>Find the Differences!</h1>
+  <p>Click the differences on the right image. Let’s see how sharp your eyes are!</p>
   <div class="container">
     <div class="image-wrapper">
       <img src="https://i.imgur.com/0DElr0H.jpg" alt="Left Image">
     </div>
     <div class="image-wrapper" id="right-image">
       <img src="https://i.imgur.com/0DElr0H.jpg" alt="Right Image">
+      <!-- Difference Spots -->
       <div class="spot" style="top: 80px; left: 120px;"></div>
       <div class="spot" style="top: 150px; left: 200px;"></div>
       <div class="spot" style="top: 220px; left: 90px;"></div>
     </div>
   </div>
+
+  <div id="score">Found: <span id="found-count">0</span>/3</div>
   <div id="result"></div>
+  <button onclick="restartGame()">Play Again</button>
+
+  <audio id="win-sound" src="https://www.soundjay.com/button/sounds/button-3.mp3" preload="auto"></audio>
 
   <script>
     const spots = document.querySelectorAll('.spot');
     const foundCount = document.getElementById('found-count');
     const result = document.getElementById('result');
-    const timerDisplay = document.getElementById('timer');
+    const winSound = document.getElementById('win-sound');
     let found = 0;
-    let timeLeft = 30;
-    let gameOver = false;
 
-    // Start countdown
-    const countdown = setInterval(() => {
-      timeLeft--;
-      timerDisplay.textContent = timeLeft;
-      if (timeLeft === 0) {
-        clearInterval(countdown);
-        gameOver = true;
-        result.textContent = '⏳ Time is up! Try again.';
-      }
-    }, 1000);
-
-    // Click logic
     spots.forEach(spot => {
       spot.addEventListener('click', function () {
-        if (gameOver || spot.classList.contains('found')) return;
-        spot.classList.add('found');
-        found++;
-        foundCount.textContent = found;
-        if (found === spots.length) {
-          clearInterval(countdown);
-          result.textContent = '🎉 You found all the differences!';
+        if (!spot.classList.contains('found')) {
+          spot.classList.add('found');
+          found++;
+          foundCount.textContent = found;
+          if (found === spots.length) {
+            result.textContent = '🎉 Yay! You found them all!';
+            winSound.play();
+          }
         }
       });
     });
+
+    function restartGame() {
+      spots.forEach(spot => {
+        spot.classList.remove('found');
+      });
+      found = 0;
+      foundCount.textContent = found;
+      result.textContent = '';
+    }
   </script>
 </body>
 </html>

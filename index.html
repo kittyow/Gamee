@@ -65,10 +65,10 @@
   <div id="score">Score: 0</div>
   <div id="game">
     <div class="image-wrapper">
-      <img id="leftImage" src="images/level1.jpg" alt="Original" />
+      <img id="leftImage" src="" alt="Original" />
     </div>
     <div class="image-wrapper" id="rightWrapper">
-      <img id="rightImage" src="images/level1.jpg" alt="Modified" />
+      <img id="rightImage" src="" alt="Modified" />
     </div>
   </div>
   <div id="result"></div>
@@ -77,30 +77,30 @@
   <script>
     const levels = [
       {
-        left: "images/level1.jpg",
-        right: "images/level1.jpg",
+        left: "https://i.imgur.com/YFiJx4E.jpg",
+        right: "https://i.imgur.com/YFiJx4E.jpg",
         spots: [
-          { top: 80, left: 120 },
-          { top: 150, left: 200 },
-          { top: 220, left: 90 }
+          { top: 70, left: 100 },
+          { top: 160, left: 180 },
+          { top: 220, left: 50 }
         ]
       },
       {
-        left: "images/level2.jpg",
-        right: "images/level2.jpg",
+        left: "https://i.imgur.com/2ZPqGfO.jpg",
+        right: "https://i.imgur.com/2ZPqGfO.jpg",
         spots: [
-          { top: 100, left: 160 },
-          { top: 180, left: 100 },
-          { top: 220, left: 240 }
+          { top: 90, left: 130 },
+          { top: 180, left: 200 },
+          { top: 230, left: 80 }
         ]
       },
       {
-        left: "images/level3.jpg",
-        right: "images/level3.jpg",
+        left: "https://i.imgur.com/Z8O0DxS.jpg",
+        right: "https://i.imgur.com/Z8O0DxS.jpg",
         spots: [
-          { top: 70, left: 140 },
-          { top: 190, left: 190 },
-          { top: 240, left: 120 }
+          { top: 60, left: 120 },
+          { top: 190, left: 150 },
+          { top: 250, left: 100 }
         ]
       }
     ];
@@ -126,7 +126,7 @@
       nextBtn.style.display = "none";
       found = 0;
 
-      // Clear old spots
+      // Xóa spot cũ
       const oldSpots = document.querySelectorAll(".spot");
       oldSpots.forEach(spot => spot.remove());
 
@@ -163,7 +163,7 @@
       }
     });
 
-    // Start with level 0
+    // Bắt đầu game
     loadLevel(currentLevel);
   </script>
 </body>
